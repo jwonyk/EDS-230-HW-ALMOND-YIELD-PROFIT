@@ -36,7 +36,7 @@ library(kableExtra)
 
 ```{r}
 # Read the daily climate time series
-climate <- read.table(here("Data", "clim.txt"), header = TRUE)
+climate <- read.table(here("data", "clim.txt"), header = TRUE)
 ```
 
 ### Step 3: Clean and Prepare Climate Data for Analysis
