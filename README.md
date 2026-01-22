@@ -20,14 +20,11 @@ The primary objectives of this assignment are to:
 EDS-230-HW3
 └── README.md
 └── EDS-230-Almond-Yield-Model.Rproj
-└── almond_yield.R
-└── almond_model.qmd
+└── HW3_Almond_Model.qmd
 └── data/
 │   └── clim.txt
-└── images/
-│   └── almond_conceptual_model.png
 └── R/
-
+│   └── almond_yield.R
 ```
 
 ## Data Access
