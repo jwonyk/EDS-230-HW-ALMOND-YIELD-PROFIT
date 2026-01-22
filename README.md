@@ -6,12 +6,9 @@ This project focuses on implementing a simple climate–crop response model to e
 
 The primary objectives of this assignment are to:
 
-- Conceptualize a climate-crop model through a clear diagrammatic representation,
-
-- Implement the conceptual model as a reusable R function,
-
-- Apply the model to a provided daily climate dataset, and
-
+- Conceptualize a climate-crop model through a clear diagrammatic representation
+- Implement the conceptual model as a reusable R function
+- Apply the model to a provided daily climate dataset
 - Validate model outputs against expected summary statistics.
 
 ## Repository Structure
