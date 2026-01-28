@@ -163,7 +163,7 @@ To evaluate how uncertainty in economic assumptions affects modeled almond profi
 
 ```{r}
 # Set seed for randomization
-set.seed(123)
+set.seed(42)
 
 # Give a enough sample for the pattern
 n_sample <- 300
@@ -185,6 +185,9 @@ For each sampled combination of price and cost, the yield–profit model is re-r
 ```{r}
 # For each sampled price and cost, recompute yield-driven profit and store mean annual profit
 sensitivity_results <- data.frame()
+sensitivity_plot <- data.frame(matrix(ncol = n_sample, 
+                                         nrow = length(combined_temp_precip$year)))
+sensitivity_plot$year <- combined_temp_precip$year
 
 for (i in 1:n_sample) {
   
@@ -202,8 +205,34 @@ for (i in 1:n_sample) {
                           cost = params$cost[i],
                           mean_profit = mean(output$profit, na.rm = TRUE)))
   
+  # Store all sensitivity results per year
+  sensitivity_plot[, i] <- output$profit
+  
 }
 
 head(sensitivity_results)
+```
+
+```{r}
+tmp <- sensitivity_plot %>% pivot_longer(cols = -c(year))
+ggplot(tmp, aes(x = as.factor(year), y = value)) +
+  geom_boxplot() +
+  labs(x = "Year",
+       y = "Annual Profit",
+       title = "Annual Almond Yield Profit Sensitivity Analysis") +
+  theme_minimal()
+
+tmp <- sensitivity_plot %>% 
+  filter(year != 1995) %>% 
+  pivot_longer(cols = -c(year))
+
+ggplot(tmp, aes(x = as.factor(year), y = value)) +
+  geom_boxplot() +
+  labs(x = "Year",
+       y = "Annual Profit",
+       title = "Annual Almond Yield Profit Sensitivity Analysis",
+       subtitle = "Without 1995") +
+  theme_minimal()
+
 ```
 
