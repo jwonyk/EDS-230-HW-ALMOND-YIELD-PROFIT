@@ -53,5 +53,3 @@ yield_profit <- function(combined_temp_precip, cost = 1500,
   return(yearprofit)
   
 }
-
-yield_profit(combined_temp_precip)

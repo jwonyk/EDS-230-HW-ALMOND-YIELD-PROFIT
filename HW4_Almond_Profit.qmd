@@ -170,8 +170,8 @@ n_sample <- 300
 
 # Sample two parameter (price and cost)
 # Use `pmax()` to prevent negative values
-price_sample <- pmax(rnorm(n_sample, mean = 2100, sd = 250), 0)
-cost_sample <- pmax(rnorm(n_sample, mean = 1500, sd = 200), 0)
+price_sample <- rnorm(n_sample, mean = 2100, sd = 250)
+cost_sample <- rnorm(n_sample, mean = 1500, sd = 200)
 
 params <- data.frame(samp = 1:n_sample,
                      price = price_sample,
@@ -185,8 +185,8 @@ For each sampled combination of price and cost, the yield–profit model is re-r
 ```{r}
 # For each sampled price and cost, recompute yield-driven profit and store mean annual profit
 sensitivity_results <- data.frame()
-sensitivity_plot <- data.frame(matrix(ncol = n_sample, 
-                                         nrow = length(combined_temp_precip$year)))
+sensitivity_plot <- data.frame(matrix(ncol = n_sample,
+                                      nrow = length(combined_temp_precip$year)))
 sensitivity_plot$year <- combined_temp_precip$year
 
 for (i in 1:n_sample) {
@@ -211,6 +211,7 @@ for (i in 1:n_sample) {
 }
 
 head(sensitivity_results)
+head(sensitivity_plot)
 ```
 
 ```{r}
