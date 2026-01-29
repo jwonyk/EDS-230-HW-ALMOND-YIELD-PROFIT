@@ -3,7 +3,7 @@ title: "Assignment 4: Almond Model"
 subtitle: "EDS 230 - Modeling Environmental Systems"
 author: "Leela Dixit, Jay Kim, Richard Montes Lemus"
 date: "January 28, 2026"
-format: html
+format: pdf
 editor_options: 
   chunk_output_type: console
 ---
@@ -169,10 +169,10 @@ set.seed(42)
 n_sample <- 300
 
 # Sample two parameter (price and cost)
-# Use `pmax()` to prevent negative values
-price_sample <- pmax(rnorm(n_sample, mean = 2100, sd = 250), 0)
-cost_sample <- pmax(rnorm(n_sample, mean = 1500, sd = 200), 0)
+price_sample <- rnorm(n_sample, mean = 2100, sd = 250)
+cost_sample <- rnorm(n_sample, mean = 1500, sd = 200)
 
+# Create a table with variation for price and cost 
 params <- data.frame(samp = 1:n_sample,
                      price = price_sample,
                      cost = cost_sample)
@@ -183,10 +183,11 @@ params <- data.frame(samp = 1:n_sample,
 For each sampled combination of price and cost, the yield–profit model is re-run, and the mean annual profit is calculated. The resulting simulations yield a set of profit outcomes that characterize the sensitivity of the modeled almond profit to variations in key economic parameters. These results are summarized and visualized to highlight dominant patterns and trade-offs.
 
 ```{r}
-# For each sampled price and cost, recompute yield-driven profit and store mean annual profit
+# For each sampled price and cost, recompute yield-driven profit  
+# and store mean annual profit
 sensitivity_results <- data.frame()
 sensitivity_plot <- data.frame(matrix(ncol = n_sample, 
-                                         nrow = length(combined_temp_precip$year)))
+                                      nrow = length(combined_temp_precip$year)))
 sensitivity_plot$year <- combined_temp_precip$year
 
 for (i in 1:n_sample) {
@@ -213,20 +214,31 @@ for (i in 1:n_sample) {
 head(sensitivity_results)
 ```
 
+This following box plot shows the variation in Almond profit based on randomly sampling cost and price given our dataset's average for both variables and a standard deviation of 200 for cost and 250 for price. 
 ```{r}
-tmp <- sensitivity_plot %>% pivot_longer(cols = -c(year))
-ggplot(tmp, aes(x = as.factor(year), y = value)) +
+# Create box plot with randomly sampled cost and price based on mean 
+# and standard deviation
+plot_all <- sensitivity_plot %>% pivot_longer(cols = -c(year))
+ggplot(plot_all, aes(x = as.factor(year), y = value)) +
   geom_boxplot() +
   labs(x = "Year",
        y = "Annual Profit",
        title = "Annual Almond Yield Profit Sensitivity Analysis") +
   theme_minimal()
 
-tmp <- sensitivity_plot %>% 
+plot_all
+```
+
+This following box plot shows the variation in Almond profit based on randomly sampling cost and price given our dataset's average for both variables and a standard deviation of 200 for cost and 250 for price. It excludes 1995 since it was abnormally large and hides other box plots
+```{r}
+# Remove 1995
+plot_wo_1995 <- sensitivity_plot %>% 
   filter(year != 1995) %>% 
   pivot_longer(cols = -c(year))
 
-ggplot(tmp, aes(x = as.factor(year), y = value)) +
+# Create boxplot with randomly sampled cost and price based on mean 
+# and standard deviation excluding 1995
+ggplot(plot_wo_1995, aes(x = as.factor(year), y = value)) +
   geom_boxplot() +
   labs(x = "Year",
        y = "Annual Profit",
@@ -234,5 +246,6 @@ ggplot(tmp, aes(x = as.factor(year), y = value)) +
        subtitle = "Without 1995") +
   theme_minimal()
 
+plot_wo_1995
 ```
 
